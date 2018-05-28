@@ -5,73 +5,73 @@ import java.io.IOException;
 
 public class GameImgLoader {
 
-    public Image getDPlayer(int i) {
-        return DPlayer[i];
+    public Image getDPlayer(MPlayer player,int i) {
+        return player.DPlayer[i];
     }
-    public Image getUPlayer(int i) {
-        return UPlayer[i];
+    public Image getUPlayer(MPlayer player,int i) {
+        return player.UPlayer[i];
     }
-    public Image getRPlayer(int i) {
-        return RPlayer[i];
+    public Image getRPlayer(MPlayer player,int i) {
+        return player.RPlayer[i];
     }
-    public Image getLPlayer(int i) {
-        return LPlayer[i];
+    public Image getLPlayer(MPlayer player,int i) {
+        return player.LPlayer[i];
     }
     public Image getMap() {
         return Map;
     }
     enum PlayerColor {GREENP}    //доступные цвета игроков
-    Image[] DPlayer;    //      картинки движения игрока вниз
-    Image[] UPlayer;    //      картинки движения игрока вверх
-    Image[] RPlayer;    //      картинки движения игрока вправо
-    Image[] LPlayer;    //      картинки движения игрока влево
-    Image StandPlayer;  //      картинка стоящего игрока
-    Image[] DeathPlayer;
-    Image DeadPlayer;
+//    Image[] DPlayer;    //      картинки движения игрока вниз
+//    Image[] UPlayer;    //      картинки движения игрока вверх
+//    Image[] RPlayer;    //      картинки движения игрока вправо
+//    Image[] LPlayer;    //      картинки движения игрока влево
+//    Image StandPlayer;  //      картинка стоящего игрока
+//    Image[] DeathPlayer;
+//    Image DeadPlayer;
     Image Map;          //      картинка фона карты
 
-//-------------------------------------------------загрузка спрайтов игрока--------------------------------------------
+    //-------------------------------------------------загрузка спрайтов игрока--------------------------------------------
     public GameImgLoader (MPlayer player, PlayerColor PlayerColor){
-        DPlayer = new Image[7];
-        for (int i = 0; i < 7 ; i++) {
-            try {
-                DPlayer[i] = ImageIO.read(new File("lib/pic/player/" + PlayerColor.toString() + "/Walk" + String.valueOf(i+1) + ".png"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        UPlayer = new Image[7];
+        player.DPlayer = new Image[7];
         for (int i = 0; i < 6 ; i++) {
             try {
-                UPlayer[i] = ImageIO.read(new File("lib/pic/player/" + PlayerColor.toString() + "/Walk" + String.valueOf(i+1) + ".png"));
+                player.DPlayer[i] = ImageIO.read(new File("lib/pic/player/" + PlayerColor.toString() + "/Walk" + String.valueOf(i+1) + ".png"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        RPlayer = new Image[7];
-        for (int i = 0; i < 7 ; i++) {
+        player.UPlayer = new Image[7];
+        for (int i = 0; i < 6 ; i++) {
             try {
-                RPlayer[i] = ImageIO.read(new File("lib/pic/player/" + PlayerColor.toString() + "/Walk" + String.valueOf(i+1) + ".png"));
+                player.UPlayer[i] = ImageIO.read(new File("lib/pic/player/" + PlayerColor.toString() + "/Walk" + String.valueOf(i+1) + ".png"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        LPlayer = new Image[7];
-        for (int i = 0; i < 7 ; i++) {
+        player.RPlayer = new Image[7];
+        for (int i = 0; i < 6 ; i++) {
             try {
-                LPlayer[i] = ImageIO.read(new File("lib/pic/player/" + PlayerColor.toString() + "/Walk" + String.valueOf(i+1) + ".png"));
+                player.RPlayer[i] = ImageIO.read(new File("lib/pic/player/" + PlayerColor.toString() + "/Walk" + String.valueOf(i+1) + ".png"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        player.LPlayer = new Image[7];
+        for (int i = 0; i < 6 ; i++) {
+            try {
+                player.LPlayer[i] = ImageIO.read(new File("lib/pic/player/" + PlayerColor.toString() + "/Walk" + String.valueOf(i+1) + ".png"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         try {
-            StandPlayer = ImageIO.read(new File("lib/pic/player/" + PlayerColor.toString() + "/Stand.png"));
+            player.StandPlayer = ImageIO.read(new File("lib/pic/player/" + PlayerColor.toString() + "/Stand.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-//------------------------------------------------Загрузка фона карты---------------------------------------------------
+    //------------------------------------------------Загрузка фона карты---------------------------------------------------
     public GameImgLoader(){
         try {
             Map = ImageIO.read(new File("lib/pic/backg/testBack.gif"));
@@ -79,38 +79,38 @@ public class GameImgLoader {
             e.printStackTrace();
         }
     }
-//------------------------------------------------Возвращаем картинки в зависимости от движения------------------------
+    //------------------------------------------------Возвращаем картинки в зависимости от движения------------------------
     public Image getPlayerImgAction(MPlayer player) {
 
         switch (player.PAction) {
             case "UP":
-                getUPlayer(player.spriteIndx);
+                getUPlayer(player,player.spriteIndx);
                 player.LastMovePlayer = "UP";
-                return getUPlayer(player.spriteIndx);
+                return getUPlayer(player,player.spriteIndx);
             case "DOWN":
-                getUPlayer(player.spriteIndx);
+                getUPlayer(player,player.spriteIndx);
                 player.LastMovePlayer = "DOWN";
-                return getDPlayer(player.spriteIndx);
+                return getDPlayer(player,player.spriteIndx);
             case "RIGHT":
-                getUPlayer(player.spriteIndx);
+                getUPlayer(player,player.spriteIndx);
                 player.LastMovePlayer = "RIGHT";
-                return getRPlayer(player.spriteIndx);
+                return getRPlayer(player,player.spriteIndx);
             case "LEFT":
-                getUPlayer(player.spriteIndx);
+                getUPlayer(player,player.spriteIndx);
                 player.LastMovePlayer = "LEFT";
-                return getLPlayer(player.spriteIndx);
+                return getLPlayer(player,player.spriteIndx);
             case "NONE":
                 switch (player.LastMovePlayer) {
                     case "UP":
-                        return StandPlayer;
+                        return player.StandPlayer;
                     case "DOWN":
-                        return StandPlayer;
+                        return player.StandPlayer;
                     case "RIGHT":
-                        return StandPlayer;
+                        return player.StandPlayer;
                     case "LEFT":
-                        return StandPlayer;
+                        return player.StandPlayer;
                 }
         }
-        return StandPlayer;
+        return player.StandPlayer;
     }
 }
