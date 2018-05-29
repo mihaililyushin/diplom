@@ -2,6 +2,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.AffineTransform;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -78,13 +79,21 @@ public class MMain extends JPanel implements ActionListener {
         //рисуем фон
 
         //============Движение спрайта персонажа========================================================================
+        g.drawLine(player.mapX,player.mapY,player.mouseX,player.mouseY);
+        Graphics2D g2d = (Graphics2D) g;
+        AffineTransform affine = new AffineTransform();
+        affine.rotate(Math.toRadians(player.angle), player.mapX,
+                player.mapY);
+
+        g2d.setTransform(affine);
+
         g.drawImage(playerImg.getPlayerImgAction(player),
                 player.mapX, player.mapY, 40, 40, null);
         player.spriteIndx++;
         if (player.spriteIndx > 5) {
             player.spriteIndx = 0;
         }
-        g.drawLine(player.mapX,player.mapY,player.mouseX,player.mouseY);
+
         //=============================================================================================================
     }
     //-----------------------------------------------действия по таймеру---------------------------------------------------
