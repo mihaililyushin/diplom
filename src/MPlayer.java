@@ -4,6 +4,10 @@ import java.awt.event.MouseEvent;
 
 public class MPlayer {
     int mapY,mapX,moveX,moveY,speed,mouseX,mouseY,fireX,fireY,angle;
+    int sizeX = 40;
+    int sizeY = 40;
+    int startX = 50;
+    int startY = 50;
     Image[] DPlayer;    //      картинки движения игрока вниз
     Image[] UPlayer;    //      картинки движения игрока вверх
     Image[] RPlayer;    //      картинки движения игрока вправо
@@ -18,38 +22,37 @@ public class MPlayer {
     enum PlayerAction {UP,DOWN,LEFT,RIGHT,NONE}                 //список разрешенных действий игрока
     String PAction = PlayerAction.NONE.toString();              //текущее действие
 
-
-    public MPlayer(int startX, int startY){
-        this.mapY = startY;
-        this.mapX = startX;
+    public MPlayer(){
+        this.mapY = this.startX;
+        this.mapX = this.startY;
         this.speed = 3;
     }
-
     //--------------------------------------------------Принцип движения---------------------------------------------------
     public MPlayer move(MPlayer player) {
         switch(PlayerAction.valueOf(PAction)) {
             case UP:
-                player.playerMouseMoving(player);
-                BordersCheck.getInstance().Check_X_and_Y(player);
+                player.playerMouseMoving(player,true);
+                Mmap.getInstance().Check_X_and_Y(player);
                 break;
             case DOWN:
                 player.moveY = player.mapY + player.speed;
-                BordersCheck.getInstance().Check_X_and_Y(player);
+                Mmap.getInstance().Check_X_and_Y(player);
                 break;
             case LEFT:
                 player.moveX = player.mapX - player.speed;
-                BordersCheck.getInstance().Check_X_and_Y(player);
+                Mmap.getInstance().Check_X_and_Y(player);
                 break;
             case RIGHT:
                 player.moveX = player.mapX + player.speed;
-                BordersCheck.getInstance().Check_X_and_Y(player);
+                Mmap.getInstance().Check_X_and_Y(player);
                 break;
             default:
                 break;
         }
         return player;
     }
-    //-------------------------------------Реакция на нажатие клавиш-------------------------------------------------------
+//-------------------------------------Реакция на нажатие клавиш--------------------------------------------------------
+
     public void keyPressed(KeyEvent e) {            //определяем разрешенное действие по нажатию клавиши
         int key = e.getKeyCode();
         if(key == KeyEvent.VK_W) {
@@ -65,7 +68,8 @@ public class MPlayer {
             PAction = PlayerAction.RIGHT.toString();
         }
     }
-    //---------------------------------------------Прекращение реакции при прекращении нажатия клавиш----------------------
+//---------------------------------------------Прекращение реакции при прекращении нажатия клавиш-----------------------
+
     public void keyReleased(KeyEvent e) {           //прекратить движение если клавишу отпустили
         int key = e.getKeyCode();
         if(key == KeyEvent.VK_W) {
@@ -81,6 +85,8 @@ public class MPlayer {
             PAction = PlayerAction.NONE.toString();
         }
     }
+//---------------------------------------Реакция на нажатие кнопки мыши-------------------------------------------------
+
     public void mouseClicked(MouseEvent e, MPlayer player){
       int click = e.getButton();
 
@@ -93,13 +99,16 @@ public class MPlayer {
             System.out.println("button 2 pressed");
         }
     }
+//----------------------------------------Получаем координы мыши если ей двигаем----------------------------------------
+
     public MPlayer mouseMoved(MouseEvent e, MPlayer player){
         player.mouseX = e.getX();
         player.mouseY = e.getY();
         return player;
     }
+//-----------------------------------------Расчет дельты координат и угла направления движения при движении за мышью----
 
-    public MPlayer playerMouseMoving (MPlayer player){
+    public MPlayer playerMouseMoving (MPlayer player, boolean isMoving){
 //        (y1-y2)x + (x2 - x1)y + (x1y2 - x2y1) = 0    Уравнение линии по двум точкам
         int A = player.mapY - player.mouseY;
         int B = player.mouseX - player.mapX;
@@ -153,27 +162,33 @@ public class MPlayer {
             angle = 0; //поворот на 0
         }
          if (A > 0 & B > 0) {
-            player.moveX += dopuskX;
-            player.moveY -= dopuskY;
+                if(isMoving) {
+                    player.moveX += dopuskX;
+                    player.moveY -= dopuskY;
+                }
             player.angle = angle;
         }
         if (A < 0 & B > 0) {
-            player.moveX += dopuskX;
-            player.moveY += dopuskY;
+                if(isMoving) {
+                    player.moveX += dopuskX;
+                    player.moveY += dopuskY;
+                }
             player.angle = 180 - angle;
-
         }
         if (A > 0 & B < 0) {
-            player.moveX -= dopuskX;
-            player.moveY -= dopuskY;
+                if(isMoving) {
+                    player.moveX -= dopuskX;
+                    player.moveY -= dopuskY;
+                }
             player.angle = 360 - angle;
         }
         if (A < 0 & B < 0) {
-            player.moveX -= dopuskX;
-            player.moveY += dopuskY;
+                if(isMoving) {
+                    player.moveX -= dopuskX;
+                    player.moveY += dopuskY;
+                }
             player.angle = angle + 180;
         }
         return player;
     }
-
 }

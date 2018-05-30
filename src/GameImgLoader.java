@@ -17,9 +17,6 @@ public class GameImgLoader {
     public Image getLPlayer(MPlayer player,int i) {
         return player.LPlayer[i];
     }
-    public Image getMap() {
-        return Map;
-    }
     enum PlayerColor {GREENP}    //доступные цвета игроков
 //    Image[] DPlayer;    //      картинки движения игрока вниз
 //    Image[] UPlayer;    //      картинки движения игрока вверх
@@ -28,7 +25,7 @@ public class GameImgLoader {
 //    Image StandPlayer;  //      картинка стоящего игрока
 //    Image[] DeathPlayer;
 //    Image DeadPlayer;
-    Image Map;          //      картинка фона карты
+
 
     //-------------------------------------------------загрузка спрайтов игрока--------------------------------------------
     public GameImgLoader (MPlayer player, PlayerColor PlayerColor){
@@ -66,15 +63,6 @@ public class GameImgLoader {
         }
         try {
             player.StandPlayer = ImageIO.read(new File("lib/pic/player/" + PlayerColor.toString() + "/Stand.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    //------------------------------------------------Загрузка фона карты---------------------------------------------------
-    public GameImgLoader(){
-        try {
-            Map = ImageIO.read(new File("lib/pic/backg/testBack.gif"));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -13,7 +13,7 @@ public class MMain extends JPanel implements ActionListener {
 
     Timer timer = new Timer(15,this);
 
-    MPlayer player = new MPlayer(100,100);
+    MPlayer player = new MPlayer();
 
 
     public MMain(JFrame frame){
@@ -62,20 +62,14 @@ public class MMain extends JPanel implements ActionListener {
         });
     }
     //----------------------------------------------загружаем картинки-----------------------------------------------------
-    GameImgLoader MapImg = new GameImgLoader();
+//    GameImgLoader MapImg = new GameImgLoader();
     GameImgLoader playerImg = new GameImgLoader(player, GameImgLoader.PlayerColor.GREENP);
     //--------------------------------------------перерисовка графики в панеле---------------------------------------------
     public void paint (Graphics g){
 
-//        g.setColor(new Color(0,0,0));
-//
-//        g.fillRect(0, 0,800,600);
-
-
-
 //        System.out.println("позиция игрока X: " + player.mapX+ " Y: " + player.mapY);
 
-        g.drawImage(MapImg.getMap(), 0, 0,1024, 800, null);
+        g.drawImage(Mmap.getInstance().getMap(), 0, 0,Mmap.getInstance().sizeX, Mmap.getInstance().sizeY, null);
         //рисуем фон
 
         //============Движение спрайта персонажа========================================================================
@@ -83,12 +77,12 @@ public class MMain extends JPanel implements ActionListener {
         Graphics2D g2d = (Graphics2D) g;
         AffineTransform affine = new AffineTransform();
         affine.rotate(Math.toRadians(player.angle), player.mapX,
-                player.mapY);
+                player.mapY);           // поворачиваем спрайт игрока на угол
 
         g2d.setTransform(affine);
 
         g.drawImage(playerImg.getPlayerImgAction(player),
-                player.mapX, player.mapY, 40, 40, null);
+                player.mapX - 20, player.mapY - 20, 40, 40, null);
         player.spriteIndx++;
         if (player.spriteIndx > 5) {
             player.spriteIndx = 0;
@@ -100,6 +94,7 @@ public class MMain extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         repaint();
+        player.playerMouseMoving(player,false);
         player.move(player);
     }
 }
