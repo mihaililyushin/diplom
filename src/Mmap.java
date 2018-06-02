@@ -17,6 +17,38 @@ public class Mmap {
 
     int sizeX,sizeY;
     Image Map;          //      картинка фона карты
+    Image [] Boom;      //      спрайты взрыва
+    Image [] GREENPlayerWalk;
+    Image [] REDPlayerWalk;
+    Image [] BLUEPlayerWalk;
+    Image [] YELLOWPlayerWalk;
+    Image [] BLACKPlayerWalk;
+    Image [] WHITEPlayerWalk;
+
+    public Image getImagePlayerWalk(MPlayer player,int i) {
+       Image img = null;
+       switch (player.Playercolor){
+           case "GREEN":
+               img = GREENPlayerWalk [i];
+               break;
+           case "RED":
+               img = REDPlayerWalk [i];
+               break;
+           case "BLUE":
+               img = BLUEPlayerWalk [i];
+               break;
+           case "YELLOW":
+               img = YELLOWPlayerWalk [i];
+               break;
+           case "BLACK":
+               img = BLACKPlayerWalk [i];
+               break;
+           case "WHITE":
+               img = WHITEPlayerWalk [i];
+               break;
+       }
+       return img;
+    }
 
     public Image getMap() {
         return Map;
@@ -30,8 +62,57 @@ public class Mmap {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+       GREENPlayerWalk = new Image[7];
+        for (int i = 0; i < 6 ; i++) {
+            try {
+                GREENPlayerWalk[i] = ImageIO.read(new File("lib/pic/player/GREENP/Walk" + String.valueOf(i+1) + ".png"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } //загружаем Image [] GREENPlayerWalk
+        REDPlayerWalk = new Image[7];
+        for (int i = 0; i < 6 ; i++) {
+            try {
+                REDPlayerWalk[i] = ImageIO.read(new File("lib/pic/player/RED/Walk" + String.valueOf(i+1) + ".png"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }//загружаем Image [] REDPlayerWalk
+        BLUEPlayerWalk = new Image[7];
+        for (int i = 0; i < 6 ; i++) {
+            try {
+                BLUEPlayerWalk[i] = ImageIO.read(new File("lib/pic/player/BLUE/Walk" + String.valueOf(i+1) + ".png"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }//загружаем Image [] BLUEPlayerWalk
+        YELLOWPlayerWalk = new Image[7];
+        for (int i = 0; i < 6 ; i++) {
+            try {
+                YELLOWPlayerWalk[i] = ImageIO.read(new File("lib/pic/player/YELLOW/Walk" + String.valueOf(i+1) + ".png"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }//загружаем Image [] YELLOWPlayerWalk
+        BLACKPlayerWalk = new Image[7];
+        for (int i = 0; i < 6 ; i++) {
+            try {
+                BLACKPlayerWalk[i] = ImageIO.read(new File("lib/pic/player/BLACK/Walk" + String.valueOf(i+1) + ".png"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }//загружаем Image [] BLACKPlayerWalk
+        WHITEPlayerWalk = new Image[7];
+        for (int i = 0; i < 6 ; i++) {
+            try {
+                WHITEPlayerWalk[i] = ImageIO.read(new File("lib/pic/player/WHITE/Walk" + String.valueOf(i+1) + ".png"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }//загружаем Image [] WHITEPlayerWalk
         this.sizeX = 1024;
         this.sizeY = 800;
+
     }
 
     public static synchronized Mmap getInstance() {
@@ -63,6 +144,16 @@ public class Mmap {
             player.mapY = player.moveY;
         }
         return player;
+    }
+
+    public int RandomStart(int xy,boolean isX){
+        int newxy = 0;
+        if(isX){
+            newxy = xy;
+        } else  {
+            newxy = xy;
+        }
+        return newxy;
     }
 
 }

@@ -13,27 +13,24 @@ public class MMain extends JPanel implements ActionListener {
 
     Timer timer = new Timer(15,this);
 
-    MPlayer player = new MPlayer();
-
-
     public MMain(JFrame frame){
         this.frame = frame;
         timer.start();
         frame.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                player.keyPressed(e);
+                MPlayer.getPlayer(MPlayer.PlayerColor.GREEN).keyPressed(e);
             }
             @Override
             public void keyReleased(KeyEvent e) {
-                player.keyReleased(e);
+                MPlayer.getPlayer(MPlayer.PlayerColor.GREEN).keyReleased(e);
             }
         });
 
         frame.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                player.mouseClicked(e, player);
+                MPlayer.getPlayer(MPlayer.PlayerColor.GREEN).mouseClicked(e, MPlayer.getPlayer(MPlayer.PlayerColor.GREEN));
             }
             @Override
             public void mousePressed(MouseEvent e) {
@@ -57,13 +54,13 @@ public class MMain extends JPanel implements ActionListener {
             }
             @Override
             public void mouseMoved(MouseEvent e) {
-               player.mouseMoved(e, player);
+                MPlayer.getPlayer(MPlayer.PlayerColor.GREEN).mouseMoved(e, MPlayer.getPlayer(MPlayer.PlayerColor.GREEN));
             }
         });
     }
     //----------------------------------------------загружаем картинки-----------------------------------------------------
 //    GameImgLoader MapImg = new GameImgLoader();
-    GameImgLoader playerImg = new GameImgLoader(player, GameImgLoader.PlayerColor.GREENP);
+//    GameImgLoader playerImg = new GameImgLoader(player, GameImgLoader.PlayerColor.GREENP);
     //--------------------------------------------перерисовка графики в панеле---------------------------------------------
     public void paint (Graphics g){
 
@@ -72,29 +69,33 @@ public class MMain extends JPanel implements ActionListener {
         g.drawImage(Mmap.getInstance().getMap(), 0, 0,Mmap.getInstance().sizeX, Mmap.getInstance().sizeY, null);
         //рисуем фон
 
-        //============Движение спрайта персонажа========================================================================
-        g.drawLine(player.mapX,player.mapY,player.mouseX,player.mouseY);
+//============Движение спрайта персонажа================================================================================
+//        g.drawLine(MPlayer.getPlayer(MPlayer.PlayerColor.GREEN).mapX,MPlayer.getPlayer(MPlayer.PlayerColor.GREEN).mapY,
+//                MPlayer.getPlayer(MPlayer.PlayerColor.GREEN).fireX,MPlayer.getPlayer(MPlayer.PlayerColor.GREEN).fireY);
         Graphics2D g2d = (Graphics2D) g;
         AffineTransform affine = new AffineTransform();
-        affine.rotate(Math.toRadians(player.angle), player.mapX,
-                player.mapY);           // поворачиваем спрайт игрока на угол
+        affine.rotate(Math.toRadians(MPlayer.getPlayer(MPlayer.PlayerColor.GREEN).angle), MPlayer.getPlayer(MPlayer.PlayerColor.GREEN).mapX,
+                MPlayer.getPlayer(MPlayer.PlayerColor.GREEN).mapY);           // поворачиваем спрайт игрока на угол
 
         g2d.setTransform(affine);
+        g.drawImage(MPlayer.getPlayer(MPlayer.PlayerColor.GREEN).getPlayerImgAction(MPlayer.getPlayer(MPlayer.PlayerColor.GREEN)),
+                MPlayer.getPlayer(MPlayer.PlayerColor.GREEN).mapX - 20,
+                MPlayer.getPlayer(MPlayer.PlayerColor.GREEN).mapY - 20, 40, 40, null);
+        MPlayer.getPlayer(MPlayer.PlayerColor.GREEN).spriteIndx++;
 
-        g.drawImage(playerImg.getPlayerImgAction(player),
-                player.mapX - 20, player.mapY - 20, 40, 40, null);
-        player.spriteIndx++;
-        if (player.spriteIndx > 5) {
-            player.spriteIndx = 0;
+        if (MPlayer.getPlayer(MPlayer.PlayerColor.GREEN).spriteIndx > 5) {
+            MPlayer.getPlayer(MPlayer.PlayerColor.GREEN).spriteIndx = 0;
         }
 
         //=============================================================================================================
     }
-    //-----------------------------------------------действия по таймеру---------------------------------------------------
+//-----------------------------------------------действия по таймеру---------------------------------------------------
     @Override
     public void actionPerformed(ActionEvent e) {
         repaint();
-        player.playerMouseMoving(player,false);
-        player.move(player);
+        MPlayer.getPlayer(MPlayer.PlayerColor.GREEN).playerMouseMoving(MPlayer.getPlayer(MPlayer.PlayerColor.GREEN),false);
+        MPlayer.getPlayer(MPlayer.PlayerColor.GREEN).move(MPlayer.getPlayer(MPlayer.PlayerColor.GREEN));
+
+
     }
 }

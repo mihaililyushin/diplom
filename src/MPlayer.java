@@ -3,15 +3,20 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 public class MPlayer {
+    private static MPlayer playerGREEN = null;
+    private static MPlayer playerRED = null;
+    private static MPlayer playerBLUE = null;
+    private static MPlayer playerYELLOW = null;
+    private static MPlayer playerBLACK = null;
+    private static MPlayer playerWHITE = null;
+
     int mapY,mapX,moveX,moveY,speed,mouseX,mouseY,fireX,fireY,angle;
     int sizeX = 40;
     int sizeY = 40;
     int startX = 50;
     int startY = 50;
-    Image[] DPlayer;    //      картинки движения игрока вниз
-    Image[] UPlayer;    //      картинки движения игрока вверх
-    Image[] RPlayer;    //      картинки движения игрока вправо
-    Image[] LPlayer;    //      картинки движения игрока влево
+    final String Playercolor;
+    Image[] WPlayer;    //      картинки движения игрока вниз
     Image StandPlayer;  //      картинка стоящего игрока
     Image[] DeathPlayer;
     Image DeadPlayer;
@@ -19,10 +24,57 @@ public class MPlayer {
     String LastMovePlayer = "UP";        //последнее состояние движения
     int spriteIndx = 0;
 
+    enum PlayerColor {GREEN,RED,BLUE,YELLOW,BLACK,WHITE}    //доступные цвета игроков
+
     enum PlayerAction {UP,DOWN,LEFT,RIGHT,NONE}                 //список разрешенных действий игрока
     String PAction = PlayerAction.NONE.toString();              //текущее действие
 
-    public MPlayer(){
+    //==========================================Доступные варианты игроков==============================================
+    public static synchronized MPlayer getPlayer(PlayerColor Color) {
+        MPlayer player = null;
+        if (Color == PlayerColor.GREEN){
+            if(playerGREEN == null){
+                playerGREEN = new MPlayer(PlayerColor.GREEN,40,40);
+            }
+            player = playerGREEN;
+        }
+        if (Color == PlayerColor.RED){
+            if(playerRED == null){
+                playerRED = new MPlayer(PlayerColor.RED,40,40);
+            }
+            player = playerRED;
+        }
+        if (Color == PlayerColor.BLUE){
+            if(playerBLUE == null){
+                playerBLUE = new MPlayer(PlayerColor.BLUE,40,40);
+            }
+            player = playerBLUE;
+        }
+        if (Color == PlayerColor.YELLOW){
+            if(playerYELLOW == null){
+                playerYELLOW = new MPlayer(PlayerColor.YELLOW,40,40);
+            }
+            player = playerYELLOW;
+        }
+        if (Color == PlayerColor.BLACK){
+            if(playerBLACK == null){
+                playerBLACK = new MPlayer(PlayerColor.BLACK,40,40);
+            }
+            player = playerBLACK;
+        }
+        if (Color == PlayerColor.WHITE){
+            if(playerWHITE == null){
+                playerWHITE = new MPlayer(PlayerColor.WHITE,40,40);
+            }
+            player = playerWHITE;
+        }
+        return player;
+    }
+    //==========================================Конструктор игрока======================================================
+    private MPlayer(PlayerColor Color,int startX,int startY){
+        this.Playercolor = Color.toString();
+        this.startX = Mmap.getInstance().RandomStart(startX,true);
+        this.startY = Mmap.getInstance().RandomStart(startY,false);
         this.mapY = this.startX;
         this.mapX = this.startY;
         this.speed = 3;
@@ -50,6 +102,41 @@ public class MPlayer {
                 break;
         }
         return player;
+    }
+
+    //------------------------------------------------Возвращаем картинки в зависимости от движения------------------------
+    public Image getPlayerImgAction(MPlayer player) {
+
+        switch (player.PAction) {
+            case "UP":
+                Mmap.getInstance().getImagePlayerWalk(player,player.spriteIndx);
+                player.LastMovePlayer = "UP";
+                return Mmap.getInstance().getImagePlayerWalk(player,player.spriteIndx);
+            case "DOWN":
+                Mmap.getInstance().getImagePlayerWalk(player,player.spriteIndx);
+                player.LastMovePlayer = "DOWN";
+                return Mmap.getInstance().getImagePlayerWalk(player,player.spriteIndx);
+            case "RIGHT":
+                Mmap.getInstance().getImagePlayerWalk(player,player.spriteIndx);
+                player.LastMovePlayer = "RIGHT";
+                return Mmap.getInstance().getImagePlayerWalk(player,player.spriteIndx);
+            case "LEFT":
+                Mmap.getInstance().getImagePlayerWalk(player,player.spriteIndx);
+                player.LastMovePlayer = "LEFT";
+                return Mmap.getInstance().getImagePlayerWalk(player,player.spriteIndx);
+            case "NONE":
+                switch (player.LastMovePlayer) {
+                    case "UP":
+                        return player.StandPlayer;
+                    case "DOWN":
+                        return player.StandPlayer;
+                    case "RIGHT":
+                        return player.StandPlayer;
+                    case "LEFT":
+                        return player.StandPlayer;
+                }
+        }
+        return player.StandPlayer;
     }
 //-------------------------------------Реакция на нажатие клавиш--------------------------------------------------------
 
