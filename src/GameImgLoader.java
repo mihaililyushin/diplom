@@ -18,13 +18,6 @@ public class GameImgLoader {
         return player.LPlayer[i];
     }
     enum PlayerColor {GREEN}    //доступные цвета игроков
-//    Image[] DPlayer;    //      картинки движения игрока вниз
-//    Image[] UPlayer;    //      картинки движения игрока вверх
-//    Image[] RPlayer;    //      картинки движения игрока вправо
-//    Image[] LPlayer;    //      картинки движения игрока влево
-//    Image StandPlayer;  //      картинка стоящего игрока
-//    Image[] DeathPlayer;
-//    Image DeadPlayer;
 
 
     //-------------------------------------------------загрузка спрайтов игрока--------------------------------------------
@@ -33,6 +26,22 @@ public class GameImgLoader {
             player.bulletImg = ImageIO.read(new File("lib/pic/shoot/bullet.png"));
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        player.Boom = new Image[6];
+        for (int i = 0; i < 6 ; i++) {
+            try {
+                player.Boom[i] = ImageIO.read(new File("lib/pic/shoot/boom_0" + String.valueOf(i+1) + ".gif"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        player.ShootPlayer = new Image[6];
+        for (int i = 0; i < 2 ; i++) {
+            try {
+                player.ShootPlayer[i] = ImageIO.read(new File("lib/pic/player/" + PlayerColor.toString() + "/PGrShoot" + String.valueOf(i+1) + ".png"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         player.DPlayer = new Image[7];
         for (int i = 0; i < 6 ; i++) {

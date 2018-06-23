@@ -51,7 +51,10 @@ public class Mmap {
 
         boolean you_shall_not_pass = false;
 
-        if (player.moveX < 0 & player.moveX > this.sizeX && player.moveY < 0 & player.moveY > this.sizeY) {
+        if (player.moveX < 0 | player.moveX > 1200){
+            you_shall_not_pass = true;
+    }
+         if   (player.moveY < 0 | player.moveY > 760) {
             you_shall_not_pass = true;
         }
 
@@ -68,7 +71,37 @@ public class Mmap {
             player.mapX = player.moveX;
             player.mapY = player.moveY;
         }
+        //===========================================Проверка попадания пули============================================
         return player;
+    }
+
+    public MBullet Check_X_and_Y_bull(MBullet bullet){
+
+        boolean you_shall_not_pass = false;
+
+            if (bullet.moveX < 0 || bullet.moveX > 1200){
+                you_shall_not_pass = true;
+                bullet.boom = true;
+            }
+            if   (bullet.moveY < 0 || bullet.moveY > 760) {
+                you_shall_not_pass = true;
+                bullet.boom = true;
+            }
+            for (int i = 0; i < this.bordersCount; i++) {
+                if (bullet.moveX > ObjectBorders[i][0][0] & bullet.moveX < ObjectBorders[i][0][1] &&
+                        bullet.moveY > ObjectBorders[i][1][0] & bullet.moveY < ObjectBorders[i][1][2]) {
+                    you_shall_not_pass = true;
+                    bullet.boom = true;
+                }
+            }
+            if (you_shall_not_pass) {
+                bullet.moveX = bullet.mapX;
+                bullet.moveY = bullet.mapY;
+            } else {
+                bullet.mapX = bullet.moveX;
+                bullet.mapY = bullet.moveY;
+            }
+            return bullet;
     }
 
 
