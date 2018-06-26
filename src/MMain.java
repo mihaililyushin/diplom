@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
+import java.util.TimerTask;
 
 public class MMain extends JPanel implements ActionListener {
 
@@ -61,10 +62,17 @@ public class MMain extends JPanel implements ActionListener {
     GameImgLoader playerImg = new GameImgLoader(player, GameImgLoader.PlayerColor.GREEN);
     //--------------------------------------------перерисовка графики в панеле---------------------------------------------
     public void paint (Graphics g){
-
+        ZombieCreate.getInstance();
         g.drawImage(Mmap.getInstance().getMap(), 0, 0,Mmap.getInstance().sizeX, Mmap.getInstance().sizeY, null);
         //рисуем фон
-
+        //==================================Corpse======================================================================
+        if (player.corpseCount > 0) {
+            System.out.println(player.corpseCount);
+            System.out.println(player.corpes.toString());
+            for (int i = 0; i <player.corpseCount+1 ; i=i+2) {
+            g.drawImage(player.DeathPlayer[6],
+                    player.corpes.get(i)-20, player.corpes.get(i+1)-20, 40, 40, null);
+        }}
         //============Движение спрайта персонажа========================================================================
        // g.drawLine(player.mapX,player.mapY,player.mouseX,player.mouseY);
         Graphics2D g2d = (Graphics2D) g;
@@ -90,6 +98,42 @@ public class MMain extends JPanel implements ActionListener {
             player.bullet.spriteIndx--;
         }
         g2d.setTransform(old_affine);
+
+
+        //=================Zombie=======================================================================================
+        if (player.zombie == null){
+        if (ZombieCreate.getInstance().getTime()%10 == 0){
+            player.zombie = new Zombie(player,550,380);
+        }}
+        if (player.zombie != null && player.zombie.isAlife) {
+
+            AffineTransform affine2 = new AffineTransform();
+        affine2.rotate(Math.toRadians(player.zombie.angle + 90), player.zombie.mapX,
+                player.zombie.mapY);           // поворачиваем спрайт игрока на угол
+
+        g2d.setTransform(affine2);
+
+            g.drawImage(player.UPlayer[player.zombie.spriteIndx],
+                    player.zombie.mapX - 20, player.zombie.mapY - 20, 40, 40, null);
+            player.zombie.spriteIndx++;
+            if (player.zombie.spriteIndx > 5) {
+                player.zombie.spriteIndx = 0;
+
+            }
+        g2d.setTransform(old_affine);
+        }
+        //===============================Zombie's death=================================================================
+        if(player.zombie != null){
+        if (!player.zombie.isAlife){
+            g.drawImage(player.DeathPlayer[player.zombie.deathIndx],
+                    player.zombie.mapX - 20, player.zombie.mapY - 20, 40, 40, null);
+            player.zombie.deathIndx++;
+            if (player.zombie.deathIndx > 7) {
+                Mmap.getInstance().addCorpse(player);
+//                player.zombie = null;
+            }
+        }}
+
         //==============Движение пули===================================================================================
         if(player.bullet != null) {
             g.drawImage(player.bulletImg,
@@ -98,13 +142,15 @@ public class MMain extends JPanel implements ActionListener {
             if(player.bullet.livetime == 0){
                 player.bullet = null;
             }
+            if(player.zombie != null){
+                player.bullet.killZombie(player);
+            }
         }
         //-------------Бум---------------------------
         if(player.boomIndx >= 0) {
             g.drawImage(player.Boom[5 - player.boomIndx], player.shootX-20, player.shootY-20, 50, 50, null);
         player.boomIndx--;
         }
-
     }
     //-----------------------------------------------действия по таймеру---------------------------------------------------
     @Override
@@ -122,6 +168,9 @@ public class MMain extends JPanel implements ActionListener {
             }
         }
         player.move(player);
+        if(player.zombie != null && player.zombie.isAlife){
+        player.zombie.zombieWalk(player,player.zombie);
+        }
 
     }
 }

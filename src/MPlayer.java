@@ -1,17 +1,21 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 public class MPlayer {
     int mapY,mapX,moveX,moveY,speed,mouseX,mouseY,fireX,fireY,angle,shootX,shootY;
     int sizeX = 40;
     int sizeY = 40;
-    int startX = 50;
-    int startY = 50;
+    int startX = 300;
+    int startY = 300;
+    public ArrayList<Integer> corpes = new ArrayList<>();
+    public int corpseCount = 0;
     Image[] DPlayer;    //      картинки движения игрока вниз
     Image[] UPlayer;    //      картинки движения игрока вверх
     Image[] RPlayer;    //      картинки движения игрока вправо
     Image[] LPlayer;
+    Image[] testZombie;
     Image bulletImg;//      пуля
     Image StandPlayer;  //      картинка стоящего игрока
     Image[] ShootPlayer;
@@ -19,6 +23,7 @@ public class MPlayer {
     Image[] DeathPlayer;
     Image DeadPlayer;
     MBullet bullet = null;
+    Zombie zombie = null;
 
     String LastMovePlayer = "UP";        //последнее состояние движения
     int spriteIndx = 0;
@@ -30,7 +35,10 @@ public class MPlayer {
     public MPlayer(){
         this.mapY = this.startX;
         this.mapX = this.startY;
-        this.speed = 1;                 //множитель скорости speed*6
+        this.moveX = this.startX;
+        this.moveY = this.startY;
+        this.speed = 2;
+        //множитель скорости speed*6
     }
     //--------------------------------------------------Принцип движения---------------------------------------------------
     public MPlayer move(MPlayer player) {
@@ -38,6 +46,7 @@ public class MPlayer {
             player.PlayerMoving(player,true);
             Mmap.getInstance().Check_X_and_Y(player);
         }
+
         return player;
     }
 
@@ -94,7 +103,7 @@ public class MPlayer {
 
     public MPlayer PlayerMoving(MPlayer player, boolean isMoving){
 
-        int x1 =0, x2 = 0,y1 = 0, y2 = 0, angle = 0, moveX = 0, moveY = 0, speed = 0, A = 0, B = 0, C = 0;
+        int x1 =0, x2 = 0,y1 = 0, y2 = 0, angle = 0, speed = 0, A = 0, B = 0, C = 0;
         int speedY = 0; //приращение У при движении
         int speedX = 0; //приращение Х при движении
             x1 = player.mapX;
@@ -245,21 +254,25 @@ public class MPlayer {
                         case "UP": {
                             player.moveX += speedX;
                             player.moveY -= speedY;
+
                             break;
                         }
                         case "DOWN": {
                             player.moveX -= speedX;
                             player.moveY += speedY;
+
                             break;
                         }
                         case "LEFT": {
                             player.moveX -= speedX;
                             player.moveY -= speedY;
+
                             break;
                         }
                         case "RIGHT": {
                             player.moveX += speedX;
                             player.moveY += speedY;
+
                             break;
                         }
                     }

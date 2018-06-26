@@ -104,5 +104,15 @@ public class Mmap {
             return bullet;
     }
 
+    public MPlayer addCorpse(MPlayer player){
+        if(player.corpseCount <10) {
+            player.corpes.add(player.zombie.mapX);
+            player.corpes.add(player.zombie.mapY);
+            player.corpseCount++;
+            player.zombie = null;
+        }
+        return player;
+    }
+
 
 }

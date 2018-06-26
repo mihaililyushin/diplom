@@ -17,7 +17,7 @@ public class MBullet {
         this.moveX = player.moveX;
         this.moveY = player.moveY;
         this.livetime = 100;
-        this.speed = 3;
+        this.speed = 5;
         this.spriteIndx = 6;
         //        (y1-y2)x + (x2 - x1)y + (x1y2 - x2y1) = 0    Уравнение линии по двум точкам
         final int A = player.mapY - player.fireY;
@@ -176,5 +176,13 @@ public class MBullet {
         } //движение в зависимости от расположения в четверти координатных осей
 
         return bullet;
+    }
+
+    public MPlayer killZombie(MPlayer player){
+        if (player.bullet.mapX > player.zombie.mapX-30 && player.bullet.mapX < player.zombie.mapX+30 &&
+                player.bullet.mapY > player.zombie.mapY-30 && player.bullet.mapY < player.zombie.mapY+30){
+            player.zombie.isAlife = false;
+        }
+        return player;
     }
 }

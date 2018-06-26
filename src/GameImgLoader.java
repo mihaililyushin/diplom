@@ -59,6 +59,14 @@ public class GameImgLoader {
                 e.printStackTrace();
             }
         }
+        player.testZombie = new Image[7];
+        for (int i = 0; i < 6 ; i++) {
+            try {
+                player.UPlayer[i] = ImageIO.read(new File("lib/pic/player/RED/Walk" + String.valueOf(i+1) + ".png"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         player.RPlayer = new Image[7];
         for (int i = 0; i < 6 ; i++) {
             try {
@@ -71,6 +79,14 @@ public class GameImgLoader {
         for (int i = 0; i < 6 ; i++) {
             try {
                 player.LPlayer[i] = ImageIO.read(new File("lib/pic/player/" + PlayerColor.toString() + "/Walk" + String.valueOf(i+1) + ".png"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        player.DeathPlayer = new Image[8];
+        for (int i = 0; i < 7 ; i++) {
+            try {
+                player.DeathPlayer[i] = ImageIO.read(new File("lib/pic/player/" + PlayerColor.toString() + "/PGrDead" + String.valueOf(i+1) + ".png"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
