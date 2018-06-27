@@ -62,6 +62,7 @@ public class MMain extends JPanel implements ActionListener {
     GameImgLoader playerImg = new GameImgLoader(player, GameImgLoader.PlayerColor.GREEN);
     //--------------------------------------------перерисовка графики в панеле---------------------------------------------
     public void paint (Graphics g){
+
         ZombieCreate.getInstance();
         g.drawImage(Mmap.getInstance().getMap(), 0, 0,Mmap.getInstance().sizeX, Mmap.getInstance().sizeY, null);
         //рисуем фон
@@ -69,9 +70,11 @@ public class MMain extends JPanel implements ActionListener {
         if (player.corpseCount > 0) {
             System.out.println(player.corpseCount);
             System.out.println(player.corpes.toString());
-            for (int i = 0; i <player.corpseCount+1 ; i=i+2) {
+            player.corpseIndx = 1;
+            for (int i = 0; i < player.corpseCount; i++) {
             g.drawImage(player.DeathPlayer[6],
-                    player.corpes.get(i)-20, player.corpes.get(i+1)-20, 40, 40, null);
+                    player.corpes.get(i+i)-20, player.corpes.get(player.corpseIndx)-20, 40, 40, null);
+            player.corpseIndx += 2;
         }}
         //============Движение спрайта персонажа========================================================================
        // g.drawLine(player.mapX,player.mapY,player.mouseX,player.mouseY);
@@ -90,7 +93,7 @@ public class MMain extends JPanel implements ActionListener {
             player.spriteIndx = 0;
 
         }
-
+        System.out.println(player.mouseX + " " + player.mouseY);
         //=================Анимация выстрела============================================================================
         if(player.bullet != null && player.bullet.spriteIndx != 0){
             g.drawImage(player.ShootPlayer[player.bullet.spriteIndx - 1],
@@ -103,7 +106,7 @@ public class MMain extends JPanel implements ActionListener {
         //=================Zombie=======================================================================================
         if (player.zombie == null){
         if (ZombieCreate.getInstance().getTime()%10 == 0){
-            player.zombie = new Zombie(player,550,380);
+            player.zombie = new Zombie(player);
         }}
         if (player.zombie != null && player.zombie.isAlife) {
 
@@ -151,12 +154,19 @@ public class MMain extends JPanel implements ActionListener {
             g.drawImage(player.Boom[5 - player.boomIndx], player.shootX-20, player.shootY-20, 50, 50, null);
         player.boomIndx--;
         }
+        int fontSize = 20;
+        g.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
+        g.setColor(Color.red);
+        g.drawString("Убито зомби: " + player.corpseCount, 10, 20);
     }
     //-----------------------------------------------действия по таймеру---------------------------------------------------
     @Override
     public void actionPerformed(ActionEvent e) {
         repaint();
+//       ========================================игрок ходит===========================
         player.PlayerMoving(player,false);
+        player.move(player);
+//       ========================================пуля летит============================
         if(player.bullet != null) {
             player.bullet.bulletFly(player.bullet);
             Mmap.getInstance().Check_X_and_Y_bull(player.bullet);
@@ -167,9 +177,10 @@ public class MMain extends JPanel implements ActionListener {
                 player.bullet = null;
             }
         }
-        player.move(player);
+//       ========================================зомби ходит===========================
         if(player.zombie != null && player.zombie.isAlife){
         player.zombie.zombieWalk(player,player.zombie);
+        Mmap.getInstance().Check_X_and_Y(player.zombie);
         }
 
     }

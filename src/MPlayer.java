@@ -9,8 +9,9 @@ public class MPlayer {
     int sizeY = 40;
     int startX = 300;
     int startY = 300;
-    public ArrayList<Integer> corpes = new ArrayList<>();
-    public int corpseCount = 0;
+    public ArrayList<Integer> corpes = new ArrayList<>(); // тут координаты трупов
+    public int corpseCount = 0; //счетчик трупов\убийств
+    public  int corpseIndx;
     Image[] DPlayer;    //      картинки движения игрока вниз
     Image[] UPlayer;    //      картинки движения игрока вверх
     Image[] RPlayer;    //      картинки движения игрока вправо
@@ -24,6 +25,7 @@ public class MPlayer {
     Image DeadPlayer;
     MBullet bullet = null;
     Zombie zombie = null;
+    boolean isalive = true;
 
     String LastMovePlayer = "UP";        //последнее состояние движения
     int spriteIndx = 0;

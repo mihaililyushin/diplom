@@ -71,10 +71,9 @@ public class Mmap {
             player.mapX = player.moveX;
             player.mapY = player.moveY;
         }
-        //===========================================Проверка попадания пули============================================
         return player;
     }
-
+    //===========================================Проверка попадания пули============================================
     public MBullet Check_X_and_Y_bull(MBullet bullet){
 
         boolean you_shall_not_pass = false;
@@ -102,6 +101,32 @@ public class Mmap {
                 bullet.mapY = bullet.moveY;
             }
             return bullet;
+    }
+    public Zombie Check_X_and_Y (Zombie zombie){
+
+        boolean you_shall_not_pass = false;
+
+        if (zombie.moveX < 0 | zombie.moveX > 1200){
+            you_shall_not_pass = true;
+        }
+        if   (zombie.moveY < 0 | zombie.moveY > 760) {
+            you_shall_not_pass = true;
+        }
+
+        for (int i = 0; i < this.bordersCount; i++) {
+            if (zombie.moveX > ObjectBorders[i][0][0] & zombie.moveX < ObjectBorders[i][0][1] &&
+                    zombie.moveY > ObjectBorders[i][1][0] & zombie.moveY < ObjectBorders[i][1][2]) {
+                you_shall_not_pass = true;
+            }
+        }
+        if (you_shall_not_pass) {
+            zombie.moveX = zombie.mapX;
+            zombie.moveY = zombie.mapY;
+        } else {
+            zombie.mapX = zombie.moveX;
+            zombie.mapY = zombie.moveY;
+        }
+        return zombie;
     }
 
     public MPlayer addCorpse(MPlayer player){

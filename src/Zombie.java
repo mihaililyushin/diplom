@@ -4,6 +4,8 @@ public class Zombie {
     int speed = 0;
     int moveX = 0;
     int moveY = 0;
+    int startX = 0;
+    int startY = 0;
     int angle = 0;
     int sizeX = 40;
     int sizeY = 40;
@@ -13,9 +15,12 @@ public class Zombie {
     boolean ismoving = true;
 
 
-    public Zombie (MPlayer player, int startX, int startY){
-        this.mapX = startX;
-        this.mapY = startY;
+    public Zombie (MPlayer player){
+        int random = (int)(Math.random() * 10);
+        this.startX = ZombieCreate.respawn[random][0];
+        this.startY = ZombieCreate.respawn[random][1];
+        this.mapX = this.startX;
+        this.mapY = this.startY;
         this.moveX = startX;
         this.moveY = startY;
         this.speed = 1;
@@ -189,8 +194,8 @@ public class Zombie {
             zombie.moveX -= speedX;
             zombie.moveY += speedY;
         }}
-        zombie.mapX = zombie.moveX;
-        zombie.mapY = zombie.moveY;
+//        zombie.mapX = zombie.moveX;
+//        zombie.mapY = zombie.moveY;
         //движение в зависимости от расположения в четверти координатных осей
         zombie.angle = angle;
         return zombie;
