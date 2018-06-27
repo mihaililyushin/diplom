@@ -178,11 +178,12 @@ public class MBullet {
         return bullet;
     }
 
-    public MPlayer killZombie(MPlayer player){
-        if (player.bullet.mapX > player.zombie.mapX-30 && player.bullet.mapX < player.zombie.mapX+30 &&
-                player.bullet.mapY > player.zombie.mapY-30 && player.bullet.mapY < player.zombie.mapY+30){
-            player.zombie.isAlife = false;
+    public Zombie killZombie(MPlayer player, Zombie zombie){
+        if (player.bullet.mapX > zombie.mapX-30 && player.bullet.mapX < zombie.mapX+30 &&
+                player.bullet.mapY > zombie.mapY-30 && player.bullet.mapY < zombie.mapY+30){
+            zombie.isAlife = false;
         }
-        return player;
+        return zombie;
     }
+
 }

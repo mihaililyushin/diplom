@@ -8,7 +8,7 @@ public class MMain extends JPanel implements ActionListener {
 
     JFrame frame;
 
-    Timer timer = new Timer(24,this);
+    Timer timer = new Timer(30,this);
 
     MPlayer player = new MPlayer();
 
@@ -68,14 +68,15 @@ public class MMain extends JPanel implements ActionListener {
         //рисуем фон
         //==================================Corpse======================================================================
         if (player.corpseCount > 0) {
-            System.out.println(player.corpseCount);
-            System.out.println(player.corpes.toString());
             player.corpseIndx = 1;
             for (int i = 0; i < player.corpseCount; i++) {
             g.drawImage(player.DeathPlayer[6],
                     player.corpes.get(i+i)-20, player.corpes.get(player.corpseIndx)-20, 40, 40, null);
             player.corpseIndx += 2;
         }}
+        if (player.isAlive){
+            // тут может наступить конец игры
+
         //============Движение спрайта персонажа========================================================================
        // g.drawLine(player.mapX,player.mapY,player.mouseX,player.mouseY);
         Graphics2D g2d = (Graphics2D) g;
@@ -93,7 +94,6 @@ public class MMain extends JPanel implements ActionListener {
             player.spriteIndx = 0;
 
         }
-        System.out.println(player.mouseX + " " + player.mouseY);
         //=================Анимация выстрела============================================================================
         if(player.bullet != null && player.bullet.spriteIndx != 0){
             g.drawImage(player.ShootPlayer[player.bullet.spriteIndx - 1],
@@ -124,7 +124,101 @@ public class MMain extends JPanel implements ActionListener {
 
             }
         g2d.setTransform(old_affine);
-        }
+            //-----------player killed------------------------------------------------------------
+            player.killerZombie(player,player.zombie);
+        } //zombie
+        if (player.zombie2 == null){
+            if (ZombieCreate.getInstance().getTime()%10 == 0){
+                player.zombie2 = new Zombie(player);
+            }}
+        if (player.zombie2 != null && player.zombie2.isAlife) {
+
+            AffineTransform affine3 = new AffineTransform();
+            affine3.rotate(Math.toRadians(player.zombie2.angle + 90), player.zombie2.mapX,
+                    player.zombie2.mapY);           // поворачиваем спрайт игрока на угол
+
+            g2d.setTransform(affine3);
+
+            g.drawImage(player.UPlayer[player.zombie2.spriteIndx],
+                    player.zombie2.mapX - 20, player.zombie2.mapY - 20, 40, 40, null);
+            player.zombie2.spriteIndx++;
+            if (player.zombie2.spriteIndx > 5) {
+                player.zombie2.spriteIndx = 0;
+
+            }
+            g2d.setTransform(old_affine);
+            //-----------player killed------------------------------------------------------------
+            player.killerZombie(player,player.zombie2);
+        } //zombie2
+        if (player.zombie3 == null){
+            if (ZombieCreate.getInstance().getTime()%10 == 0){
+                player.zombie3 = new Zombie(player);
+            }}
+        if (player.zombie3 != null && player.zombie3.isAlife) {
+
+            AffineTransform affine4 = new AffineTransform();
+            affine4.rotate(Math.toRadians(player.zombie3.angle + 90), player.zombie3.mapX,
+                    player.zombie3.mapY);           // поворачиваем спрайт игрока на угол
+
+            g2d.setTransform(affine4);
+
+            g.drawImage(player.UPlayer[player.zombie3.spriteIndx],
+                    player.zombie3.mapX - 20, player.zombie3.mapY - 20, 40, 40, null);
+            player.zombie3.spriteIndx++;
+            if (player.zombie3.spriteIndx > 5) {
+                player.zombie3.spriteIndx = 0;
+
+            }
+            g2d.setTransform(old_affine);
+            //-----------player killed------------------------------------------------------------
+            player.killerZombie(player,player.zombie3);
+        } //zombie3
+            if (player.zombie4 == null){
+                if (ZombieCreate.getInstance().getTime()%10 == 0){
+                    player.zombie4 = new Zombie(player);
+                }}
+            if (player.zombie4 != null && player.zombie4.isAlife) {
+
+                AffineTransform affine5 = new AffineTransform();
+                affine5.rotate(Math.toRadians(player.zombie4.angle + 90), player.zombie4.mapX,
+                        player.zombie4.mapY);           // поворачиваем спрайт игрока на угол
+
+                g2d.setTransform(affine5);
+
+                g.drawImage(player.UPlayer[player.zombie4.spriteIndx],
+                        player.zombie4.mapX - 20, player.zombie4.mapY - 20, 40, 40, null);
+                player.zombie4.spriteIndx++;
+                if (player.zombie4.spriteIndx > 5) {
+                    player.zombie4.spriteIndx = 0;
+
+                }
+                g2d.setTransform(old_affine);
+                //-----------player killed------------------------------------------------------------
+                player.killerZombie(player,player.zombie4);
+            }  //zombie4
+        if (player.zombie5 == null){
+                if (ZombieCreate.getInstance().getTime()%10 == 0){
+                    player.zombie5 = new Zombie(player);
+                }}
+            if (player.zombie5 != null && player.zombie5.isAlife) {
+
+                AffineTransform affine6 = new AffineTransform();
+                affine6.rotate(Math.toRadians(player.zombie5.angle + 90), player.zombie5.mapX,
+                        player.zombie5.mapY);           // поворачиваем спрайт игрока на угол
+
+                g2d.setTransform(affine6);
+
+                g.drawImage(player.UPlayer[player.zombie5.spriteIndx],
+                        player.zombie5.mapX - 20, player.zombie5.mapY - 20, 40, 40, null);
+                player.zombie5.spriteIndx++;
+                if (player.zombie5.spriteIndx > 5) {
+                    player.zombie5.spriteIndx = 0;
+
+                }
+                g2d.setTransform(old_affine);
+                //-----------player killed------------------------------------------------------------
+                player.killerZombie(player,player.zombie5);
+            } //zombie5
         //===============================Zombie's death=================================================================
         if(player.zombie != null){
         if (!player.zombie.isAlife){
@@ -132,10 +226,45 @@ public class MMain extends JPanel implements ActionListener {
                     player.zombie.mapX - 20, player.zombie.mapY - 20, 40, 40, null);
             player.zombie.deathIndx++;
             if (player.zombie.deathIndx > 7) {
-                Mmap.getInstance().addCorpse(player);
-//                player.zombie = null;
+                Mmap.getInstance().addCorpse(player,player.zombie);
             }
-        }}
+        }} //zombie
+        if(player.zombie2 != null){
+            if (!player.zombie2.isAlife){
+                g.drawImage(player.DeathPlayer[player.zombie2.deathIndx],
+                        player.zombie2.mapX - 20, player.zombie2.mapY - 20, 40, 40, null);
+                player.zombie2.deathIndx++;
+                if (player.zombie2.deathIndx > 7) {
+                    Mmap.getInstance().addCorpse(player,player.zombie2);
+                }
+            }} //zombie2
+        if(player.zombie3 != null){
+            if (!player.zombie3.isAlife){
+                g.drawImage(player.DeathPlayer[player.zombie3.deathIndx],
+                        player.zombie3.mapX - 20, player.zombie3.mapY - 20, 40, 40, null);
+                player.zombie3.deathIndx++;
+                if (player.zombie3.deathIndx > 7) {
+                    Mmap.getInstance().addCorpse(player,player.zombie3);
+                }
+            }} //zombie3
+            if(player.zombie4 != null){
+                if (!player.zombie4.isAlife){
+                    g.drawImage(player.DeathPlayer[player.zombie4.deathIndx],
+                            player.zombie4.mapX - 20, player.zombie4.mapY - 20, 40, 40, null);
+                    player.zombie4.deathIndx++;
+                    if (player.zombie4.deathIndx > 7) {
+                        Mmap.getInstance().addCorpse(player,player.zombie4);
+                    }
+                }} //zombie4
+            if(player.zombie5 != null){
+                if (!player.zombie5.isAlife){
+                    g.drawImage(player.DeathPlayer[player.zombie5.deathIndx],
+                            player.zombie5.mapX - 20, player.zombie5.mapY - 20, 40, 40, null);
+                    player.zombie5.deathIndx++;
+                    if (player.zombie5.deathIndx > 7) {
+                        Mmap.getInstance().addCorpse(player,player.zombie5);
+                    }
+                }} //zombie5
 
         //==============Движение пули===================================================================================
         if(player.bullet != null) {
@@ -146,8 +275,20 @@ public class MMain extends JPanel implements ActionListener {
                 player.bullet = null;
             }
             if(player.zombie != null){
-                player.bullet.killZombie(player);
-            }
+                player.bullet.killZombie(player, player.zombie);
+            } // zombie
+            if(player.zombie2 != null){
+            player.bullet.killZombie(player, player.zombie2);
+        } // zombie 2
+            if(player.zombie3 != null){
+                player.bullet.killZombie(player, player.zombie3);
+            } // zombie 3
+            if(player.zombie4 != null){
+                player.bullet.killZombie(player, player.zombie4);
+            } // zombie 4
+            if(player.zombie5 != null){
+                player.bullet.killZombie(player, player.zombie5);
+            } // zombie 5
         }
         //-------------Бум---------------------------
         if(player.boomIndx >= 0) {
@@ -158,7 +299,25 @@ public class MMain extends JPanel implements ActionListener {
         g.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
         g.setColor(Color.red);
         g.drawString("Убито зомби: " + player.corpseCount, 10, 20);
-    }
+    } else {
+            int fontSize = 80;
+            g.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
+            g.setColor(Color.red);
+            g.drawString("Убито зомби: " + player.corpseCount, 10, 300);
+            if (player.corpseCount == 3){
+                g.drawString("Тебя съели, ты был не против", 10, 200);
+            }
+            if (player.corpseCount > 3 && player.corpseCount <= 10){
+                g.drawString("Тебя съели, но ты пытался", 10, 200);
+            }
+            if (player.corpseCount > 10 && player.corpseCount <= 20){
+                g.drawString("Тебя съели, но тут нельзя выиграть", 10, 200);
+            }
+            if (player.corpseCount > 20){
+                g.drawString("И тебе не надоело?)))", 10, 200);
+            }
+
+    }}
     //-----------------------------------------------действия по таймеру---------------------------------------------------
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -181,7 +340,23 @@ public class MMain extends JPanel implements ActionListener {
         if(player.zombie != null && player.zombie.isAlife){
         player.zombie.zombieWalk(player,player.zombie);
         Mmap.getInstance().Check_X_and_Y(player.zombie);
-        }
+        } // zombie
+        if(player.zombie2 != null && player.zombie2.isAlife){
+            player.zombie2.zombieWalk(player,player.zombie2);
+            Mmap.getInstance().Check_X_and_Y(player.zombie2);
+        } // zombie 2
+        if(player.zombie3 != null && player.zombie3.isAlife){
+            player.zombie3.zombieWalk(player,player.zombie3);
+            Mmap.getInstance().Check_X_and_Y(player.zombie3);
+        } // zombie 3
+        if(player.zombie4 != null && player.zombie4.isAlife){
+            player.zombie4.zombieWalk(player,player.zombie4);
+            Mmap.getInstance().Check_X_and_Y(player.zombie4);
+        } // zombie 4
+        if(player.zombie5 != null && player.zombie5.isAlife){
+            player.zombie5.zombieWalk(player,player.zombie5);
+            Mmap.getInstance().Check_X_and_Y(player.zombie5);
+        } // zombie 5
 
     }
 }

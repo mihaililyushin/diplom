@@ -129,13 +129,22 @@ public class Mmap {
         return zombie;
     }
 
-    public MPlayer addCorpse(MPlayer player){
-        if(player.corpseCount <10) {
-            player.corpes.add(player.zombie.mapX);
-            player.corpes.add(player.zombie.mapY);
+    public MPlayer addCorpse(MPlayer player, Zombie zombie){
+            player.corpes.add(zombie.mapX);
+            player.corpes.add(zombie.mapY);
             player.corpseCount++;
+         if (zombie.equals(player.zombie)) {
             player.zombie = null;
+         }if (zombie.equals(player.zombie2)){
+            player.zombie2 = null;
+        }if (zombie.equals(player.zombie3)){
+            player.zombie3 = null;
+        }if (zombie.equals(player.zombie4)){
+            player.zombie4 = null;
+        }if (zombie.equals(player.zombie5)){
+            player.zombie5 = null;
         }
+
         return player;
     }
 

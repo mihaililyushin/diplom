@@ -25,7 +25,11 @@ public class MPlayer {
     Image DeadPlayer;
     MBullet bullet = null;
     Zombie zombie = null;
-    boolean isalive = true;
+    Zombie zombie2 = null;
+    Zombie zombie3 = null;
+    Zombie zombie4 = null;
+    Zombie zombie5 = null;
+    boolean isAlive = true;
 
     String LastMovePlayer = "UP";        //последнее состояние движения
     int spriteIndx = 0;
@@ -362,5 +366,11 @@ public class MPlayer {
         return player;
     }
 
-
+    public MPlayer killerZombie(MPlayer player, Zombie zombie){
+        if (player.mapX > zombie.mapX-30 && player.mapX < zombie.mapX+30 &&
+                player.mapY > zombie.mapY-30 && player.mapY < zombie.mapY+30){
+            player.isAlive = false;
+        }
+        return player;
+    }
 }
