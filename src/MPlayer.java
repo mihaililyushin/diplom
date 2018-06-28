@@ -17,6 +17,8 @@ public class MPlayer {
     Image[] RPlayer;    //      картинки движения игрока вправо
     Image[] LPlayer;
     Image[] testZombie;
+    Image Corpse;
+    Image[] Zombie;
     Image bulletImg;//      пуля
     Image StandPlayer;  //      картинка стоящего игрока
     Image[] ShootPlayer;

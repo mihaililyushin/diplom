@@ -27,6 +27,11 @@ public class GameImgLoader {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        try {
+            player.Corpse = ImageIO.read(new File("lib/pic/player/GREEN/Corpse.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         player.Boom = new Image[6];
         for (int i = 0; i < 6 ; i++) {
             try {
@@ -47,6 +52,14 @@ public class GameImgLoader {
         for (int i = 0; i < 6 ; i++) {
             try {
                 player.DPlayer[i] = ImageIO.read(new File("lib/pic/player/" + PlayerColor.toString() + "/Walk" + String.valueOf(i+1) + ".png"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        player.Zombie = new Image[6];
+        for (int i = 0; i < 6 ; i++) {
+            try {
+                player.Zombie[i] = ImageIO.read(new File("lib/pic/player/" + PlayerColor.toString() + "/ZWalk" + String.valueOf(i+1) + ".png"));
             } catch (IOException e) {
                 e.printStackTrace();
             }

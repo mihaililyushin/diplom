@@ -70,7 +70,7 @@ public class MMain extends JPanel implements ActionListener {
         if (player.corpseCount > 0) {
             player.corpseIndx = 1;
             for (int i = 0; i < player.corpseCount; i++) {
-            g.drawImage(player.DeathPlayer[6],
+            g.drawImage(player.Corpse,
                     player.corpes.get(i+i)-20, player.corpes.get(player.corpseIndx)-20, 40, 40, null);
             player.corpseIndx += 2;
         }}
@@ -116,7 +116,7 @@ public class MMain extends JPanel implements ActionListener {
 
         g2d.setTransform(affine2);
 
-            g.drawImage(player.UPlayer[player.zombie.spriteIndx],
+            g.drawImage(player.Zombie[player.zombie.spriteIndx],
                     player.zombie.mapX - 20, player.zombie.mapY - 20, 40, 40, null);
             player.zombie.spriteIndx++;
             if (player.zombie.spriteIndx > 5) {
@@ -139,7 +139,7 @@ public class MMain extends JPanel implements ActionListener {
 
             g2d.setTransform(affine3);
 
-            g.drawImage(player.UPlayer[player.zombie2.spriteIndx],
+            g.drawImage(player.Zombie[player.zombie2.spriteIndx],
                     player.zombie2.mapX - 20, player.zombie2.mapY - 20, 40, 40, null);
             player.zombie2.spriteIndx++;
             if (player.zombie2.spriteIndx > 5) {
@@ -162,7 +162,7 @@ public class MMain extends JPanel implements ActionListener {
 
             g2d.setTransform(affine4);
 
-            g.drawImage(player.UPlayer[player.zombie3.spriteIndx],
+            g.drawImage(player.Zombie[player.zombie3.spriteIndx],
                     player.zombie3.mapX - 20, player.zombie3.mapY - 20, 40, 40, null);
             player.zombie3.spriteIndx++;
             if (player.zombie3.spriteIndx > 5) {
@@ -185,7 +185,7 @@ public class MMain extends JPanel implements ActionListener {
 
                 g2d.setTransform(affine5);
 
-                g.drawImage(player.UPlayer[player.zombie4.spriteIndx],
+                g.drawImage(player.Zombie[player.zombie4.spriteIndx],
                         player.zombie4.mapX - 20, player.zombie4.mapY - 20, 40, 40, null);
                 player.zombie4.spriteIndx++;
                 if (player.zombie4.spriteIndx > 5) {
@@ -208,7 +208,7 @@ public class MMain extends JPanel implements ActionListener {
 
                 g2d.setTransform(affine6);
 
-                g.drawImage(player.UPlayer[player.zombie5.spriteIndx],
+                g.drawImage(player.Zombie[player.zombie5.spriteIndx],
                         player.zombie5.mapX - 20, player.zombie5.mapY - 20, 40, 40, null);
                 player.zombie5.spriteIndx++;
                 if (player.zombie5.spriteIndx > 5) {
@@ -304,14 +304,14 @@ public class MMain extends JPanel implements ActionListener {
             g.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
             g.setColor(Color.red);
             g.drawString("Убито зомби: " + player.corpseCount, 10, 300);
-            if (player.corpseCount == 3){
-                g.drawString("Тебя съели, ты был не против", 10, 200);
+            if (player.corpseCount == 0){
+                g.drawString("Тебя съели,ты был не против", 10, 200);
             }
-            if (player.corpseCount > 3 && player.corpseCount <= 10){
-                g.drawString("Тебя съели, но ты пытался", 10, 200);
+            if (player.corpseCount > 0 && player.corpseCount <= 10){
+                g.drawString("Ты вкусный,но ты пытался", 10, 200);
             }
             if (player.corpseCount > 10 && player.corpseCount <= 20){
-                g.drawString("Тебя съели, но тут нельзя выиграть", 10, 200);
+                g.drawString("Тут нельзя выиграть!", 10, 200);
             }
             if (player.corpseCount > 20){
                 g.drawString("И тебе не надоело?)))", 10, 200);
